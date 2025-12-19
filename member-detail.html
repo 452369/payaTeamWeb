@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PAYA CSGO 成员介绍</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --bg-color: #0a0a14;
+        --card-bg-color: #1e1e2e;
+        --accent-color: #00b4d8;
+        --text-main: #ffffff;
+        --text-sub: #cccccc;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .wrapper {
+        max-width: 480px;
+        width: 100%;
+        padding: 24px 16px;
+        box-sizing: border-box;
+      }
+
+      .card {
+        background-color: var(--card-bg-color);
+        border-radius: 16px;
+        padding: 24px 20px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
+        text-align: center;
+      }
+
+      .member-name {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+      }
+
+      .sub-title {
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        margin-bottom: 16px;
+      }
+
+      .coming {
+        font-size: 1.2rem;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+      }
+
+      .desc {
+        font-size: 0.9rem;
+        color: var(--text-sub);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 18px;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        text-decoration: none;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <div class="member-name" id="memberName">PAYA 成员</div>
+        <div class="sub-title">PAYA CSGO 战队 · 成员个人页面</div>
+        <div class="coming">Coming Soon...</div>
+        <p class="desc">
+          该成员的详细介绍页面正在制作中。后续可以在这里展示他的位置、擅长地图、代表英雄、高光瞬间等内容。
+        </p>
+        <a href="index.html" class="back-link">← 返回战队首页</a>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const displayName = name || 'PAYA 成员';
+        const memberNameEl = document.getElementById('memberName');
+        if (memberNameEl) {
+          memberNameEl.textContent = displayName;
+        }
+        document.title = displayName + ' | PAYA CSGO 成员介绍';
+      })();
+    </script>
+  </body>
+</html>
+
+

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PAYA CSGO 战队官网</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      :root {
+        --bg-color: #0a0a14;
+        --card-bg-color: #1e1e2e;
+        --accent-color: #00b4d8;
+        --text-main: #ffffff;
+        --text-sub: #cccccc;
+        --nav-height: 70px;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+      }
+
+      body.theme-light {
+        --bg-color: #f5f5f7;
+        --card-bg-color: #ffffff;
+        --accent-color: #0077b6;
+        --text-main: #111827;
+        --text-sub: #4b5563;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      /* 顶部导航栏 */
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(10, 10, 20, 0.9);
+        backdrop-filter: blur(6px);
+        opacity: 0.3; /* 初始半透明 30% */
+        transition:
+          opacity 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+        z-index: 100;
+      }
+
+      .site-header.is-opaque {
+        opacity: 1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      }
+
+      /* 无鼠标设备（手机/平板）上始终不透明 */
+      @media (hover: none) {
+        .site-header {
+          opacity: 1 !important;
+        }
+      }
+
+      .nav-inner {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--accent-color);
+      }
+
+      .nav-brand {
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+      }
+
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-item {
+        position: relative;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        padding: 6px 4px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--accent-color);
+        border-color: var(--accent-color);
+      }
+
+      /* 二级菜单 */
+      .has-submenu:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 8px;
+        min-width: 160px;
+        background-color: #11111f;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        list-style: none;
+        padding: 6px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease,
+          visibility 0.2s ease;
+        z-index: 101;
+      }
+
+      body.theme-light .submenu {
+        background-color: #ffffff;
+      }
+
+      .submenu li a {
+        display: block;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        color: var(--text-sub);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .submenu li a:hover {
+        background-color: rgba(0, 180, 216, 0.12);
+        color: var(--accent-color);
+      }
+
+      .theme-toggle-btn {
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background-color: transparent;
+        color: var(--text-main);
+        padding: 4px 10px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          transform 0.15s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent-color);
+        transform: translateY(-1px);
+      }
+
+      main {
+        padding-top: calc(var(--nav-height) + 40px);
+        padding-bottom: 40px;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 40px 16px 24px;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .hero-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-sub);
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      .members-section {
+        max-width: 1200px;
+        margin: 40px auto 0;
+        padding: 0 16px;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+
+      .section-desc {
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .member-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .member-card {
+        flex: 1 1 240px;
+        max-width: 240px;
+        height: 300px;
+        background-color: var(--card-bg-color);
+        border-radius: 16px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px 12px;
+        text-align: center;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          border-color 0.25s ease;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-sizing: border-box;
+      }
+
+      .member-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
+        border-color: var(--accent-color);
+      }
+
+      .member-avatar-link {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid var(--accent-color);
+        box-sizing: border-box;
+        display: inline-block;
+      }
+
+      .member-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+
+      .member-id {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 0.98rem;
+      }
+
+      .member-role {
+        margin-top: 4px;
+        font-size: 0.85rem;
+        color: var(--text-sub);
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 16px;
+        font-size: 0.8rem;
+        color: var(--text-sub);
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          gap: 12px;
+        }
+
+        .nav-list {
+          gap: 12px;
+        }
+
+        .member-card {
+          flex: 1 1 calc(33.333% - 24px); /* 平板端一行 3 个 */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .member-card {
+          flex: 1 1 calc(50% - 16px); /* 手机端一行 2 个 */
+        }
+
+        .nav-inner {
+          padding: 0 12px;
+        }
+
+        .nav-brand {
+          display: none;
+        }
+
+        .nav-list {
+          display: none; /* 简化手机版导航（可根据需要再补充） */
+        }
+      }
+    </style>
+
+    <script src="Js/main.js" defer></script>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <img src="images/payaTeamIcon.jpg" alt="PAYA 战队图标" class="nav-logo" />
+          <span class="nav-brand">PAYA CSGO TEAM</span>
+        </div>
+
+        <div class="nav-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#home" class="nav-link">首页</a>
+            </li>
+            <li class="nav-item has-submenu">
+              <a href="#members" class="nav-link">战队成员</a>
+              <ul class="submenu">
+                <li><a href="#members">全部成员</a></li>
+                <li><a href="member-detail.html?name=paya.donking">paya.donking</a></li>
+                <li><a href="member-detail.html?name=paya.1aowang">paya.1aowang</a></li>
+                <li><a href="member-detail.html?name=paya.gand1">paya.gand1</a></li>
+                <li><a href="member-detail.html?name=paya.youngzhou">paya.youngzhou</a></li>
+                <li><a href="member-detail.html?name=paya.paya">paya.paya</a></li>
+              </ul>
+            </li>
+            <li class="nav-item has-submenu">
+              <a href="#matches" class="nav-link">赛事成绩</a>
+              <ul class="submenu">
+                <li><a href="#matches-2024">2024 赛事</a></li>
+                <li><a href="#matches-2023">2023 赛事</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#news" class="nav-link">战队动态</a>
+            </li>
+            <li class="nav-item">
+              <a href="#contact" class="nav-link">联系我们</a>
+            </li>
+          </ul>
+
+          <button type="button" class="theme-toggle-btn" aria-label="切换明暗主题">
+            Light
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <h1 class="hero-title">PAYA CSGO 战队</h1>
+        <p class="hero-subtitle">
+          专注于团队配合与战术执行的 CSGO 战队。下面是我们当前的 5 人主力阵容，点击头像可以跳转到该成员的个人介绍页面（暂为
+          Coming Soon 模板）。
+        </p>
+      </section>
+
+      <section class="members-section" id="members">
+        <h2 class="section-title">战队成员</h2>
+        <p class="section-desc">
+          头像为战队通用图标，后续可以替换为每位选手的专属形象。布局基于 flexbox，让 5
+          个成员卡片在桌面端等宽分布，间距均匀。
+        </p>
+
+        <div class="member-grid">
+          <article class="member-card">
+            <a
+              href="member-detail.html?name=paya.donking"
+              class="member-avatar-link"
+              aria-label="查看 paya.donking 的个人介绍"
+            >
+              <img
+                src="images/payaTeamIcon.jpg"
+                loading="lazy"
+                alt="paya.donking 头像"
+                class="member-avatar"
+              />
+            </a>
+            <div class="member-id">paya.donking</div>
+            <div class="member-role">指挥 / 步枪手</div>
+          </article>
+
+          <article class="member-card">
+            <a
+              href="member-detail.html?name=paya.1aowang"
+              class="member-avatar-link"
+              aria-label="查看 paya.1aowang 的个人介绍"
+            >
+              <img
+                src="images/payaTeamIcon.jpg"
+                loading="lazy"
+                alt="paya.1aowang 头像"
+                class="member-avatar"
+              />
+            </a>
+            <div class="member-id">paya.1aowang</div>
+            <div class="member-role">突破手 / 步枪手</div>
+          </article>
+
+          <article class="member-card">
+            <a
+              href="member-detail.html?name=paya.gand1"
+              class="member-avatar-link"
+              aria-label="查看 paya.gand1 的个人介绍"
+            >
+              <img
+                src="images/payaTeamIcon.jpg"
+                loading="lazy"
+                alt="paya.gand1 头像"
+                class="member-avatar"
+              />
+            </a>
+            <div class="member-id">paya.gand1</div>
+            <div class="member-role">狙击手</div>
+          </article>
+
+          <article class="member-card">
+            <a
+              href="member-detail.html?name=paya.youngzhou"
+              class="member-avatar-link"
+              aria-label="查看 paya.youngzhou 的个人介绍"
+            >
+              <img
+                src="images/payaTeamIcon.jpg"
+                loading="lazy"
+                alt="paya.youngzhou 头像"
+                class="member-avatar"
+              />
+            </a>
+            <div class="member-id">paya.youngzhou</div>
+            <div class="member-role">辅助位</div>
+          </article>
+
+          <article class="member-card">
+            <a
+              href="member-detail.html?name=paya.paya"
+              class="member-avatar-link"
+              aria-label="查看 paya.paya 的个人介绍"
+            >
+              <img
+                src="images/payaTeamIcon.jpg"
+                loading="lazy"
+                alt="paya.paya 头像"
+                class="member-avatar"
+              />
+            </a>
+            <div class="member-id">paya.paya</div>
+            <div class="member-role">自由人 / 万金油</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 以下区块为占位内容，方便后续扩展 -->
+      <section id="matches" style="max-width: 1200px; margin: 40px auto 0; padding: 0 16px">
+        <h2 class="section-title">赛事成绩（占位）</h2>
+        <p class="section-desc">
+          后续可以在这里详细记录战队在 2023、2024
+          等各个年份的赛事成绩、对手信息和关键数据表现。
+        </p>
+        <div id="matches-2024" class="section-desc">2024 赛事成绩：Coming Soon...</div>
+        <div id="matches-2023" class="section-desc">2023 赛事成绩：Coming Soon...</div>
+      </section>
+
+      <section id="news" style="max-width: 1200px; margin: 40px auto 0; padding: 0 16px">
+        <h2 class="section-title">战队动态（占位）</h2>
+        <p class="section-desc">
+          可以展示战队日常动态、训练花絮、补强消息或成员生活分享等内容。
+        </p>
+      </section>
+
+      <section id="contact" style="max-width: 1200px; margin: 40px auto 0; padding: 0 16px">
+        <h2 class="section-title">联系我们（占位）</h2>
+        <p class="section-desc">
+          这里可以放战队 QQ 群、Discord、微博/B 站账号等信息，用于招新或商务合作。
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="currentYear"></span> PAYA CSGO TEAM. All rights reserved.</div>
+    </footer>
+  </body>
+</html>
+
+
